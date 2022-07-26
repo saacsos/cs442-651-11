@@ -75,9 +75,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->save();
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     /**
@@ -86,8 +89,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Post $post)
     {
-        //
+        $title = $request->input('title');
+        if ($title == $post->title) {
+            $post->delete();
+            return redirect()->route('posts.index');
+        }
+        return redirect()->back();
     }
 }

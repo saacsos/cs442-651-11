@@ -19,7 +19,9 @@
         </div>
 
         <div>
-            <button type="submit" class="bg-violet-400 p-4 rounded-2xl">Create</button>
+            <button type="submit" class="button color-violet">
+                Create
+            </button>
         </div>
     </form>
 

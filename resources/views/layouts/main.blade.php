@@ -10,14 +10,14 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-    <div class="text-3xl">
-        Menu
-    </div>
+    @include('layouts._menu')
+
     <div>
         @yield('content')
     </div>
-    <div>
-        Footer
+
+    <div class="">
+        Copyright 2022 : saacsos
     </div>
 </body>
 </html>

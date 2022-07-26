@@ -8,4 +8,12 @@ export default defineConfig({
             'resources/js/app.js',
         ]),
     ],
+    server: {
+        hmr: {
+            host: 'localhost',
+        },
+        watch: {
+            usePolling: true,
+        }
+    }
 });
