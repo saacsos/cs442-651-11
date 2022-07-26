@@ -25,3 +25,6 @@ Route::get('/about', function () {
 Route::get('/pages', [\App\Http\Controllers\PageController::class, 'index']);
 
 Route::get('/pages/{id}', [\App\Http\Controllers\PageController::class, 'show']);
+
+Route::resource('/posts', \App\Http\Controllers\PostController::class);
+
