@@ -1,5 +1,5 @@
 {{-- resources/views/layouts/main.blade.php --}}
-<!doctype html>
+    <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,17 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CS442 Sample Laravel</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
-    @include('layouts._menu')
+    @include('layouts._navbar')
 
     <div>
         @yield('content')
     </div>
 
-    <div class="">
-        Copyright 2022 : saacsos
-    </div>
+    @include('layouts._footer')
 </body>
 </html>
