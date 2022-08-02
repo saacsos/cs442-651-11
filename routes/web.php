@@ -26,5 +26,8 @@ Route::get('/pages', [\App\Http\Controllers\PageController::class, 'index']);
 
 Route::get('/pages/{id}', [\App\Http\Controllers\PageController::class, 'show']);
 
+Route::post('/posts/{post}/comments/store', [\App\Http\Controllers\PostController::class, 'storeComment'])
+    ->name('posts.comments.store');
+
 Route::resource('/posts', \App\Http\Controllers\PostController::class);
 

@@ -42,4 +42,35 @@
             </a>
         </div>
     </article>
+
+    <section class="mx-16 mt-8">
+        <form action="{{ route('posts.comments.store', ['post' => $post->id]) }}" method="post">
+            @csrf
+            <div>
+                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your message</label>
+                <textarea name="message" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message..."></textarea>
+            </div>
+            <div class="mt-2">
+                <button type="submit" class="app-button">Comment</button>
+            </div>
+
+        </form>
+    </section>
+
+    @if ($post->comments)
+        <section class="mt-8 mx-16">
+            <h1 class="text-3xl mb-2">{{ $post->comments->count() }} Comments</h1>
+
+            @foreach($post->comments->sortByDesc('created_at') as $comment)
+                <div class="mb-2 block p-6 w-full bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 ">
+                    <p class="bg-orange-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-2">
+                        {{ $comment->created_at->diffForHumans() }}
+                    </p>
+                    <div class="text-lg pl-3">
+                        {{ $comment->message }}
+                    </div>
+                </div>
+            @endforeach
+        </section>
+    @endif
 @endsection

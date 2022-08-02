@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
@@ -97,5 +98,13 @@ class PostController extends Controller
             return redirect()->route('posts.index');
         }
         return redirect()->back();
+    }
+
+    public function storeComment(Request $request, Post $post)
+    {
+        $comment = new Comment();
+        $comment->message = $request->get('message');
+        $post->comments()->save($comment);
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 }
