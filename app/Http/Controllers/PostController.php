@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -41,6 +43,11 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->save();
+
+        $tags = $request->get('tags');
+        $tag_ids = $this->syncTags($tags);
+        $post->tags()->sync($tag_ids);
+
         return redirect()->route('posts.show', ['post' => $post->id]);
         //                     -------------------------^
         //                    |
@@ -66,7 +73,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit', ['post' => $post]);
+        $tags = implode(', ', $post->tags->pluck('name')->all());
+
+        return view('posts.edit', ['post' => $post, 'tags' => $tags]);
     }
 
     /**
@@ -81,7 +90,33 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->save();
+
+        $tags = $request->get('tags');
+        $tag_ids = $this->syncTags($tags);
+        $post->tags()->sync($tag_ids);
+
         return redirect()->route('posts.show', ['post' => $post->id]);
+    }
+
+    private function syncTags($tags)
+    {
+        $tags = explode(',', $tags);
+        $tags = array_map(function($v) {
+            // use Illuminate\Support\Str; ก่อน class
+            return Str::ucfirst(trim($v));
+        }, $tags);
+
+        $tag_ids = [];
+        foreach($tags as $tag_name) {
+            $tag = Tag::where('name', $tag_name)->first();
+            if (!$tag) {
+                $tag = new Tag();
+                $tag->name = $tag_name;
+                $tag->save();
+            }
+            $tag_ids[] = $tag->id;
+        }
+        return $tag_ids;
     }
 
     /**

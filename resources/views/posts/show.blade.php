@@ -23,6 +23,15 @@
             </p>
         </div>
 
+        <div class="my-4">
+            @foreach($post->tags as $tag)
+                <a class="bg-pink-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-2"
+                    href="{{ route('tags.show', ['tag' => $tag->name]) }}">
+                    {{ $tag->name }}
+                </a>
+            @endforeach
+        </div>
+
         <p class="text-gray-900 font-normal p-2 mb-8">
             {{ $post->description }}
         </p>

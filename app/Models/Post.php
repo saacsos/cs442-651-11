@@ -10,6 +10,11 @@ class Post extends Model
 {
     use HasFactory; // trait
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     // Post hasMany comments, 1 โพสต์ มีหลาย คอมเมนต์ (มี s ด้วย)
     // ฟังก์ชัน คืนค่า ความสัมพันธ์ hasMany
     // attribute `comments` คืนค่า Collection ที่ผูกกับ Post นั้น
