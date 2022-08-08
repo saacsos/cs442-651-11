@@ -48,18 +48,4 @@ class Post extends Model
                 : $value
             );
     }
-
-    public function viewCount() : Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $this->numberToK($value)
-        );
-    }
-
-    public function likeCount() : Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $this->numberToK($value)
-        );
-    }
 }

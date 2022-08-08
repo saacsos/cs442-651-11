@@ -17,11 +17,14 @@ Route::get('/', function () {
     return redirect()->to('/posts');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+                        // Closure
+Route::get('/about', function () {
+    return "About Me";
+});
 
-require __DIR__.'/auth.php';
+Route::get('/pages', [\App\Http\Controllers\PageController::class, 'index']);
+
+Route::get('/pages/{id}', [\App\Http\Controllers\PageController::class, 'show']);
 
 Route::post('/posts/{post}/comments/store', [\App\Http\Controllers\PostController::class, 'storeComment'])
     ->name('posts.comments.store');

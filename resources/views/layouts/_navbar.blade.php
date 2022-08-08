@@ -14,24 +14,51 @@
         </button>
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white ">
-                <li>
-                    <a href="{{ route('posts.index') }}"
-                       class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'posts.index') current-page @endif" >
-                        Posts
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('posts.create') }}"
-                       class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'posts.create') current-page @endif">
-                        New Post
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('tags.index') }}"
-                       class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'tags.index') current-page @endif" >
-                        Tags
-                    </a>
-                </li>
+                @auth
+                    <li>
+                        <a href="{{ route('posts.index') }}"
+                           class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'posts.index') current-page @endif" >
+                            Posts
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('posts.create') }}"
+                           class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'posts.create') current-page @endif">
+                            New Post
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('tags.index') }}"
+                           class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'tags.index') current-page @endif" >
+                            Tags
+                        </a>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                             onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
+                    </li>
+                @else
+                    <li>
+                        <a href="{{ route('login') }}"
+                           class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'login') current-page @endif" >
+                            Login
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('register') }}"
+                           class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if(Route::currentRouteName() === 'register') current-page @endif" >
+                            Register
+                        </a>
+                    </li>
+
+                @endauth
             </ul>
         </div>
     </div>
