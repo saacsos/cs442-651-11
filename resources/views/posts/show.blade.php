@@ -7,6 +7,10 @@
             {{ $post->title }}
         </h1>
 
+        <p>
+            By {{ $post->user->name }}
+        </p>
+
         <div class="mb-4">
             <p class="bg-orange-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-2">
                 <svg class="w-6 h-6 inline mr-1" viewBox="0 0 20 20">
@@ -45,11 +49,14 @@
             </div>
         </div>
 
-        <div>
-            <a class="app-button" href="{{ route('posts.edit', ['post' => $post->id]) }}">
-                Edit this post
-            </a>
-        </div>
+        @can('update', $post)
+            <div>
+                <a class="app-button" href="{{ route('posts.edit', ['post' => $post->id]) }}">
+                    Edit this post
+                </a>
+            </div>
+        @endcan
+
     </article>
 
     <section class="mx-16 mt-8">
