@@ -84,19 +84,7 @@ services:
             - '/dev/shm:/dev/shm'
         networks:
             - sail
-    mongo:
-        image: 'mongo:4.4'
-        restart: always
-        ports:
-            -   '27017:27017'
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: '${MONGO_DB_USERNAME}'
-            MONGO_INITDB_ROOT_PASSWORD: '${MONGO_DB_PASSWORD}'
-            MONGO_INITDB_DATABASE: '${MONGO_DB_DATABASE}'
-        volumes:
-            - 'sailmongo:/data/db'
-        networks:
-            - sail
+
 networks:
     sail:
         driver: bridge
@@ -107,5 +95,4 @@ volumes:
         driver: local
     sail-meilisearch:
         driver: local
-    sailmongo:
-        driver: local
+

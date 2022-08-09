@@ -6,10 +6,18 @@ use App\Models\Comment;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +36,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Post::class);
+
         return view('posts.create');
     }
 
@@ -39,9 +49,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Post::class);
+
+        $validated = $request->validate([
+            'title' => ['required', 'max:255', 'min:5'],
+            'description' => ['required', 'max:1000']
+        ]);
+
         $post = new Post();
         $post->title = $request->input('title');
         $post->description = $request->input('description');
+//        $post->user_id = Auth::user()->id;
+        $post->user_id = $request->user()->id;
         $post->save();
 
         $tags = $request->get('tags');
@@ -73,6 +92,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
+
         $tags = implode(', ', $post->tags->pluck('name')->all());
 
         return view('posts.edit', ['post' => $post, 'tags' => $tags]);
@@ -87,6 +108,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
+        $validated = $request->validate([
+            'title' => ['required', 'max:255', 'min:5'],
+            'description' => ['required', 'max:1000']
+        ]);
+
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->save();
@@ -127,6 +155,8 @@ class PostController extends Controller
      */
     public function destroy(Request $request, Post $post)
     {
+        $this->authorize('delete', $post);
+
         $title = $request->input('title');
         if ($title == $post->title) {
             $post->delete();
